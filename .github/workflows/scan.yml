@@ -1,0 +1,64 @@
+name: NSE Daily Scanner
+
+on:
+  schedule:
+    # 10:00 UTC = 3:30 PM IST, Mon-Fri (right after market close)
+    - cron: '0 10 * * 1-5'
+  workflow_dispatch: {}   # lets you also trigger it manually from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install yfinance pandas numpy requests
+
+      - name: Run scanner
+        env:
+          TRADING_CAPITAL: '100000'
+        run: python nse_scanner_auto.py
+
+      - name: Send Telegram alert
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python - <<'EOF'
+          import json, os, requests
+          data = json.load(open("results.json"))
+          hits = data["results"]
+          if not hits:
+              msg = f"NSE Scanner {data['run_date']}\nNo qualifying setups today."
+          else:
+              lines = [f"NSE Scanner — {data['run_date']}"]
+              for h in hits:
+                  lines.append(
+                      f"\n{h['ticker']}\n"
+                      f"Entry: Rs.{h['entry']}  Stop: Rs.{h['stop']}  Target: Rs.{h['target']}\n"
+                      f"R:R {h['risk_reward']}  Shares: {h['shares']}"
+                  )
+              msg = "\n".join(lines)
+          token = os.environ["TELEGRAM_BOT_TOKEN"]
+          chat_id = os.environ["TELEGRAM_CHAT_ID"]
+          requests.post(
+              f"https://api.telegram.org/bot{token}/sendMessage",
+              json={"chat_id": chat_id, "text": msg}
+          )
+          EOF
+
+      - name: Commit results
+        run: |
+          git config user.name "nse-scanner-bot"
+          git config user.email "actions@github.com"
+          git add results.json docs/index.html
+          git commit -m "Daily scan $(date -u +%Y-%m-%d)" || echo "No changes to commit"
+          git push
