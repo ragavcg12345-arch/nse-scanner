@@ -1,19 +1,4 @@
 {
-  "run_date": "2026-09-30 10:16 IST",
-  "results": [
-    {
-      "ticker": "KOTAKBANK.NS",
-      "date": "2026-09-30",
-      "entry": 417.0,
-      "stop": 404.81,
-      "target": 437.32,
-      "shares": 82,
-      "capital_used": 34194.0,
-      "adx": 57.7,
-      "rel_volume": 2.57,
-      "pct_from_52w_high": -6.2,
-      "score": 154.9,
-      "risk_reward": 1.67
-    }
-  ]
+  "run_date": "2026-10-01 10:17 IST",
+  "results": []
 }
