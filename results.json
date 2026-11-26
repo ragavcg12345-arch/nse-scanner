@@ -1,19 +1,4 @@
 {
-  "run_date": "2026-11-25 19:50 IST",
-  "results": [
-    {
-      "ticker": "TECHM.NS",
-      "date": "2026-11-23",
-      "entry": 1777.5,
-      "stop": 1711.61,
-      "target": 1887.32,
-      "shares": 15,
-      "capital_used": 26662.0,
-      "adx": 26.1,
-      "rel_volume": 1.35,
-      "pct_from_52w_high": -2.9,
-      "score": 124.9,
-      "risk_reward": 1.67
-    }
-  ]
+  "run_date": "2026-11-26 19:27 IST",
+  "results": []
 }
