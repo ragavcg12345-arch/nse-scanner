@@ -1,4 +1,19 @@
 {
-  "run_date": "2026-11-26 19:27 IST",
-  "results": []
+  "run_date": "2026-11-27 19:24 IST",
+  "results": [
+    {
+      "ticker": "HCLTECH.NS",
+      "date": "2026-11-26",
+      "entry": 1468.6,
+      "stop": 1408.32,
+      "target": 1569.06,
+      "shares": 16,
+      "capital_used": 23498.0,
+      "adx": 23.2,
+      "rel_volume": 1.65,
+      "pct_from_52w_high": -11.8,
+      "score": 113.5,
+      "risk_reward": 1.67
+    }
+  ]
 }
